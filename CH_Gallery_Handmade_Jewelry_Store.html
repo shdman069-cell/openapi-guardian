@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CH Gallery | زیورآلات دست‌ساز و نقره ۹۲۵</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts - Vazirmatn -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        chGold: '#C5A059',
+                        chGoldHover: '#B38E47',
+                        chGoldLight: '#F9F5EC',
+                        chNude: '#FAF7F2',
+                        chDark: '#1A1A1A',
+                        chGray: '#666666',
+                        chLightGray: '#E8E4DF'
+                    },
+                    fontFamily: {
+                        sans: ['Vazirmatn', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #FAF7F2;
+            color: #1A1A1A;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF7F2;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #C5A059;
+            border-radius: 3px;
+        }
+
+        /* Glassmorphism */
+        .glass-nav {
+            background: rgba(250, 247, 242, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .gold-gradient-bg {
+            background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%);
+        }
+
+        .gold-border-glow:focus {
+            outline: none;
+            border-color: #C5A059;
+            box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.2);
+        }
+
+        /* Animation Keyframes */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Responsive Modal Fixes */
+        .modal-scroll {
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-chGold selection:text-white">
+
+    <!-- Navigation Bar -->
+    <header class="sticky top-0 z-40 glass-nav border-b border-chLightGray/60 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Right Side: Navigation Links / Mobile Menu Button -->
+                <div class="flex items-center space-x-reverse space-x-6">
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden text-chDark hover:text-chGold focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                    
+                    <nav class="hidden md:flex space-x-reverse space-x-8 text-sm font-medium text-chDark">
+                        <button onclick="navigateTo('home')" class="hover:text-chGold transition-colors nav-link" data-page="home">خانه</button>
+                        <button onclick="navigateTo('shop')" class="hover:text-chGold transition-colors nav-link" data-page="shop">فروشگاه</button>
+                        <button onclick="navigateTo('categories')" class="hover:text-chGold transition-colors nav-link" data-page="categories">دسته‌بندی‌ها</button>
+                        <button onclick="navigateTo('track')" class="hover:text-chGold transition-colors nav-link" data-page="track">پیگیری سفارش</button>
+                        <button onclick="navigateTo('about')" class="hover:text-chGold transition-colors nav-link" data-page="about">درباره ما</button>
+                    </nav>
+                </div>
+
+                <!-- Center Logo -->
+                <div class="flex-1 md:flex-none text-center">
+                    <button onclick="navigateTo('home')" class="inline-flex items-center group">
+                        <!-- Custom Logo Icon matching Instagram handle @ch__gallery -->
+                        <div class="w-10 h-10 rounded-full border-2 border-chGold flex items-center justify-center bg-white shadow-sm group-hover:scale-105 transition-transform duration-300 ml-2">
+                            <span class="font-bold text-lg text-chGold font-serif">چ</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="block text-lg font-extrabold tracking-wider text-chDark uppercase">CH GALLERY</span>
+                            <span class="block text-[10px] text-chGold tracking-widest font-light -mt-1">HANDMADE JEWELRY</span>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Left Side: Actions (Cart, Track, Admin) -->
+                <div class="flex items-center space-x-reverse space-x-3 sm:space-x-5">
+                    <!-- Search Button -->
+                    <button onclick="openSearchModal()" class="text-chDark hover:text-chGold p-2 transition-colors" title="جستجو">
+                        <i class="fa-solid fa-magnifying-glass text-lg"></i>
+                    </button>
+
+                    <!-- Cart Icon with Badge -->
+                    <button onclick="toggleCartDrawer()" class="relative text-chDark hover:text-chGold p-2 transition-colors" title="سبد خرید">
+                        <i class="fa-solid fa-bag-shopping text-xl"></i>
+                        <span id="cart-badge" class="absolute top-1 -right-1 bg-chGold text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
+                    </button>
+
+                    <!-- Admin Panel Switch Button -->
+                    <button onclick="navigateTo('admin')" class="hidden sm:inline-flex items-center text-xs font-semibold bg-chDark text-chGold hover:bg-black px-3.5 py-2 rounded-full transition-all shadow-sm border border-chGold/30">
+                        <i class="fa-solid fa-user-gear ml-1.5 text-xs"></i>
+                        پنل مدیریت
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Menu (Drawer) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-chLightGray px-4 pt-2 pb-6 space-y-3 shadow-lg animate-fade-in">
+            <button onclick="navigateTo('home'); toggleMobileMenu()" class="block w-full text-right px-3 py-2 rounded-lg hover:bg-chNude text-chDark font-medium">خانه</button>
+            <button onclick="navigateTo('shop'); toggleMobileMenu()" class="block w-full text-right px-3 py-2 rounded-lg hover:bg-chNude text-chDark font-medium">فروشگاه</button>
+            <button onclick="navigateTo('categories'); toggleMobileMenu()" class="block w-full text-right px-3 py-2 rounded-lg hover:bg-chNude text-chDark font-medium">دسته‌بندی‌ها</button>
+            <button onclick="navigateTo('track'); toggleMobileMenu()" class="block w-full text-right px-3 py-2 rounded-lg hover:bg-chNude text-chDark font-medium">پیگیری سفارش</button>
+            <button onclick="navigateTo('about'); toggleMobileMenu()" class="block w-full text-right px-3 py-2 rounded-lg hover:bg-chNude text-chDark font-medium">درباره ما</button>
+            <button onclick="navigateTo('admin'); toggleMobileMenu()" class="block w-full text-right px-3 py-2 rounded-lg bg-chDark text-chGold font-semibold">
+                <i class="fa-solid fa-user-gear ml-2"></i> ورود به پنل مدیریت DEMO
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main id="app-content" class="flex-grow">
+        <!-- Pages will be dynamically injected via JavaScript -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-chDark text-white border-t border-chGold/20 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+                
+                <!-- Brand Info -->
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <div class="w-9 h-9 rounded-full border border-chGold flex items-center justify-center bg-white text-chGold font-bold text-lg ml-2">چ</div>
+                        <span class="text-xl font-bold tracking-wider text-white">CH GALLERY</span>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        طراحی و ساخت دست‌ساز زیورآلات نقره ۹۲۵ و اکسسوری‌های خاص. خلق زیبایی در مقیاس جزئیات کوچک برای استایل منحصربه‌فرد شما.
+                    </p>
+                    <div class="flex items-center space-x-reverse space-x-3 pt-2">
+                        <a href="https://instagram.com/ch__gallery" target="_blank" class="w-9 h-9 rounded-full bg-white/10 hover:bg-chGold text-white hover:text-chDark flex items-center justify-center transition-all">
+                            <i class="fa-brands fa-instagram text-lg"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-chGold text-white hover:text-chDark flex items-center justify-center transition-all">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-chGold text-white hover:text-chDark flex items-center justify-center transition-all">
+                            <i class="fa-brands fa-telegram text-lg"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-sm font-semibold text-chGold uppercase tracking-wider mb-4">دسترسی سریع</h3>
+                    <ul class="space-y-2.5 text-xs text-gray-300">
+                        <li><button onclick="navigateTo('shop')" class="hover:text-chGold transition-colors">فروشگاه آنلاین</button></li>
+                        <li><button onclick="navigateTo('track')" class="hover:text-chGold transition-colors">پیگیری مرسولات پستی</button></li>
+                        <li><button onclick="navigateTo('categories')" class="hover:text-chGold transition-colors">دسته‌بندی زیورآلات</button></li>
+                        <li><button onclick="navigateTo('about')" class="hover:text-chGold transition-colors">درباره برند CH Gallery</button></li>
+                    </ul>
+                </div>
+
+                <!-- Shopping Help -->
+                <div>
+                    <h3 class="text-sm font-semibold text-chGold uppercase tracking-wider mb-4">راهنمای مشتریان</h3>
+                    <ul class="space-y-2.5 text-xs text-gray-300">
+                        <li><a href="#" class="hover:text-chGold transition-colors">راهنمای تعیین سایز دستبند و انگشتر</a></li>
+                        <li><a href="#" class="hover:text-chGold transition-colors">شرایط تعویض و بازگشت کالا</a></li>
+                        <li><a href="#" class="hover:text-chGold transition-colors">شیوه نگهداری زیورآلات نقره</a></li>
+                        <li><a href="#" class="hover:text-chGold transition-colors">سوالات متداول</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact & Instagram -->
+                <div>
+                    <h3 class="text-sm font-semibold text-chGold uppercase tracking-wider mb-4">ارتباط با ما</h3>
+                    <p class="text-xs text-gray-300 mb-3 leading-relaxed">
+                        جهت سفارش‌های سفارشی و تغییرات مد نظرتان می‌توانید از طریق دایرکت اینستاگرام یا واتساپ اقدام فرمایید.
+                    </p>
+                    <div class="space-y-2 text-xs text-gray-300">
+                        <div class="flex items-center"><i class="fa-solid fa-phone text-chGold w-5"></i> <span>۰۹۱۹۹۳۷۴۶۷۹ (فقط SMS و واتساپ)</span></div>
+                        <div class="flex items-center"><i class="fa-brands fa-instagram text-chGold w-5"></i> <span>@ch__gallery</span></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Bottom Copyright -->
+            <div class="border-t border-white/10 mt-12 pt-6 text-center text-xs text-gray-500 flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
+                <p>© ۲۰۲۶ تمامی حقوق برای فروشگاه دست‌ساز CH Gallery محفوظ است.</p>
+                <p class="text-[11px] text-gray-400">طراحی اختصاصی نسخه دمو وب‌سایت فروشگاهی</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SHOPPING CART SLIDE-OVER DRAWER -->
+    <div id="cart-drawer-overlay" onclick="toggleCartDrawer()" class="fixed inset-0 bg-black/50 z-50 transition-opacity opacity-0 pointer-events-none duration-300"></div>
+    <div id="cart-drawer" class="fixed inset-y-0 left-0 max-w-full flex z-50 transform -translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="w-screen max-w-md bg-white shadow-2xl flex flex-col justify-between">
+            
+            <!-- Cart Header -->
+            <div class="p-6 border-b border-chLightGray flex items-center justify-between bg-chNude">
+                <div class="flex items-center">
+                    <i class="fa-solid fa-bag-shopping text-chGold text-xl ml-2"></i>
+                    <h2 class="text-lg font-bold text-chDark">سبد خرید شما</h2>
+                </div>
+                <button onclick="toggleCartDrawer()" class="text-gray-400 hover:text-chDark p-2 text-lg">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Cart Items List -->
+            <div id="cart-drawer-items" class="p-6 flex-grow overflow-y-auto space-y-4">
+                <!-- Injected via JavaScript -->
+            </div>
+
+            <!-- Cart Footer Summary -->
+            <div id="cart-drawer-footer" class="p-6 border-t border-chLightGray bg-chNude/50 space-y-4">
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between text-gray-600">
+                        <span>جمع کل محصولات:</span>
+                        <span id="cart-subtotal-text" class="font-semibold text-chDark">۰ تومان</span>
+                    </div>
+                    <div class="flex justify-between text-gray-600">
+                        <span>هزینه ارسال (پست پیشتاز):</span>
+                        <span id="cart-shipping-text" class="font-semibold text-chDark">۴۵,۰۰۰ تومان</span>
+                    </div>
+                    <div class="border-t border-chLightGray pt-2 flex justify-between text-base font-bold text-chDark">
+                        <span>مبلغ قابل پرداخت:</span>
+                        <span id="cart-total-text" class="text-chGold text-lg">۰ تومان</span>
+                    </div>
+                </div>
+
+                <button onclick="navigateTo('checkout'); toggleCartDrawer();" id="checkout-btn" class="w-full bg-chDark hover:bg-black text-white font-bold py-3.5 rounded-xl transition-all shadow-md flex items-center justify-center space-x-reverse space-x-2">
+                    <span>ادامه ثبت سفارش</span>
+                    <i class="fa-solid fa-arrow-left text-xs text-chGold"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRODUCT QUICK VIEW MODAL -->
+    <div id="product-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 opacity-0 pointer-events-none transition-opacity duration-300 p-4">
+        <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 relative transform scale-95 transition-transform duration-300" id="product-modal-content">
+            <!-- Modal Close Button -->
+            <button onclick="closeProductModal()" class="absolute top-4 left-4 w-9 h-9 bg-chNude rounded-full flex items-center justify-center text-gray-600 hover:text-chDark transition-colors">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            
+            <div id="product-modal-body" class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-2">
+                <!-- Dynamically filled -->
+            </div>
+        </div>
+    </div>
+
+    <!-- GLOBAL SEARCH MODAL -->
+    <div id="search-modal" class="fixed inset-0 z-50 flex items-start justify-center pt-20 bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300 p-4">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl relative">
+            <div class="flex items-center border-b-2 border-chGold pb-3">
+                <i class="fa-solid fa-magnifying-glass text-chGold text-xl ml-3"></i>
+                <input type="text" id="search-input" onkeyup="handleSearch(this.value)" placeholder="نام محصول یا کد محصول (مثلا CH-801) را بنویسید..." class="w-full text-sm font-medium focus:outline-none text-chDark bg-transparent">
+                <button onclick="closeSearchModal()" class="text-gray-400 hover:text-chDark text-sm pr-2">بستن</button>
+            </div>
+            <div id="search-results" class="mt-4 max-h-80 overflow-y-auto divide-y divide-gray-100">
+                <!-- Search results injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- APPLICATION JAVASCRIPT CODE -->
+    <script>
+        // Default Mock Products based on @ch__gallery Instagram visual identity
+        const initialProducts = [
+            {
+                id: 'CH-801',
+                name: 'دستبند پروانه‌ای ظریف',
+                code: 'CH-801',
+                price: 480000,
+                category: 'bracelets',
+                stock: 12,
+                image: 'https://images.unsplash.com/photo-1611591475155-4282faa7c2e7?auto=format&fit=crop&w=600&q=80',
+                description: 'دستبند دست‌ساز با آویز پروانه نقره ۹۲۵ و بند بافته‌شده قابل تنظیم. ضد حساسیت و مقاوم در برابر تغییر رنگ.',
+                featured: true,
+                newArrival: true
+            },
+            {
+                id: 'CH-802',
+                name: 'دستبند قلب مینیمال',
+                code: 'CH-802',
+                price: 520000,
+                category: 'bracelets',
+                stock: 8,
+                image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=600&q=80',
+                description: 'طراحی خاص با پلاک قلب نقره خالص ۹۲۵، هدیه‌ای ارزشمند و صمیمی. با قابلیت سفارش با بندهای رنگی مختلف.',
+                featured: true,
+                newArrival: false
+            },
+            {
+                id: 'CH-803',
+                name: 'دستبند ماه و ستاره',
+                code: 'CH-803',
+                price: 450000,
+                category: 'bracelets',
+                stock: 15,
+                image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=600&q=80',
+                description: 'ترکیب رومانتیک و درخشان پلاک ماه و ستاره با نقره ایتالیایی و بافت کتان آبگریز.',
+                featured: false,
+                newArrival: true
+            },
+            {
+                id: 'CH-804',
+                name: 'دستبند نگین‌دار نقره ۹۲۵',
+                code: 'CH-804',
+                price: 690000,
+                category: 'bracelets',
+                stock: 5,
+                image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=600&q=80',
+                description: 'نگین‌های درخشان اترنال کار شده روی بدنه نقره خالص. انتخابی مجلل و شیک برای مهمانی‌ها.',
+                featured: true,
+                newArrival: true
+            },
+            {
+                id: 'CH-805',
+                name: 'دستبند زنجیری چرخشی',
+                code: 'CH-805',
+                price: 580000,
+                category: 'bracelets',
+                stock: 20,
+                image: 'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?auto=format&fit=crop&w=600&q=80',
+                description: 'زنجیر نقره ظریف با بافت فشرده و طراحی اسپرت - کلاسیک مناسب استفاده روزمره.',
+                featured: false,
+                newArrival: false
+            },
+            {
+                id: 'CH-806',
+                name: 'انگشتر نقره طرح مینیمال',
+                code: 'CH-806',
+                price: 620000,
+                category: 'rings',
+                stock: 7,
+                image: 'https://images.unsplash.com/photo-1603561591411-07134e71a2a9?auto=format&fit=crop&w=600&q=80',
+                description: 'انگشتر آزاد و قابل تنظیم (Free Size) با رکاب صقلی و استاندارد نقره ۹۲۵.',
+                featured: true,
+                newArrival: true
+            }
+        ];
+
+        const initialOrders = [
+            {
+                id: 'CH-10482',
+                customerName: 'مریم سلیمانی',
+                phone: '09123456789',
+                province: 'تهران',
+                city: 'تهران',
+                address: 'خیابان ولیعصر، بالاتر از پارک وی، کوچه فیروز، پلاک ۱۲',
+                postalCode: '1961834511',
+                items: [
+                    { id: 'CH-801', name: 'دستبند پروانه‌ای ظریف', price: 480000, quantity: 1 }
+                ],
+                totalAmount: 525000, // include 45000 shipping
+                status: 'ارسال شده',
+                trackingCode: '284739102847592019384712',
+                createdAt: '۱۴۰۲/۱۲/۲۰ - ۱۴:۳۰'
+            },
+            {
+                id: 'CH-10483',
+                customerName: 'سارا نوری',
+                phone: '09351234567',
+                province: 'اصفهان',
+                city: 'اصفهان',
+                address: 'خیابان چهارباغ عباسی، مجتمع صدف، واحد ۴',
+                postalCode: '8134567890',
+                items: [
+                    { id: 'CH-804', name: 'دستبند نگین‌دار نقره ۹۲۵', price: 690000, quantity: 1 }
+                ],
+                totalAmount: 735000,
+                status: 'در حال آماده‌سازی',
+                trackingCode: '-',
+                createdAt: '۱۴۰۲/۱۲/۲۲ - ۱۰:۱۵'
+            }
+        ];
+
+        let products = JSON.parse(localStorage.getItem('ch_products')) || initialProducts;
+        let orders = JSON.parse(localStorage.getItem('ch_orders')) || initialOrders;
+        let cart = JSON.parse(localStorage.getItem('ch_cart')) || [];
+
+        function saveToStorage() {
+            localStorage.setItem('ch_products', JSON.stringify(products));
+            localStorage.setItem('ch_orders', JSON.stringify(orders));
+            localStorage.setItem('ch_cart', JSON.stringify(cart));
+            updateCartBadge();
+        }
+
+        // Format Currency Helper
+        function formatPrice(num) {
+            return new Intl.NumberFormat('fa-IR').format(num) + ' تومان';
+        }
+
+        function navigateTo(pageId, param = null) {
+            const mainContent = document.getElementById('app-content');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Update Nav styling
+            document.querySelectorAll('.nav-link').forEach(btn => {
+                if (btn.dataset.page === pageId) {
+                    btn.classList.add('text-chGold', 'font-bold');
+                } else {
+                    btn.classList.remove('text-chGold', 'font-bold');
+                }
+            });
+
+            switch (pageId) {
+                case 'home':
+                    mainContent.innerHTML = renderHomePage();
+                    break;
+                case 'shop':
+                    mainContent.innerHTML = renderShopPage(param);
+                    break;
+                case 'categories':
+                    mainContent.innerHTML = renderCategoriesPage();
+                    break;
+                case 'track':
+                    mainContent.innerHTML = renderTrackPage(param);
+                    break;
+                case 'checkout':
+                    mainContent.innerHTML = renderCheckoutPage();
+                    break;
+                case 'about':
+                    mainContent.innerHTML = renderAboutPage();
+                    break;
+                case 'admin':
+                    mainContent.innerHTML = renderAdminPage();
+                    break;
+                default:
+                    mainContent.innerHTML = renderHomePage();
+            }
+        }
+
+        function renderHomePage() {
+            const featuredProducts = products.filter(p => p.featured);
+            const newProducts = products.filter(p => p.newArrival);
+
+            return `
+                <div class="animate-fade-in">
+                    <!-- HERO BANNER -->
+                    <section class="relative bg-chNude overflow-hidden border-b border-chLightGray">
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 flex flex-col md:flex-row items-center">
+                            
+                            <!-- Hero Text -->
+                            <div class="md:w-1/2 space-y-6 text-center md:text-right z-10">
+                                <span class="inline-block text-xs font-bold text-chGold uppercase tracking-widest bg-chGold/10 px-3.5 py-1.5 rounded-full border border-chGold/20">
+                                    کالکشن جدید زیورآلات دست‌ساز
+                                </span>
+                                <h1 class="text-3xl sm:text-5xl font-black text-chDark leading-tight">
+                                    زیبایی، در جزئیات <span class="text-chGold underline decoration-chGold/40 underline-offset-8">کوچک</span> است
+                                </h1>
+                                <p class="text-sm sm:text-base text-gray-600 max-w-lg leading-relaxed">
+                                    مجموعه‌ای دست‌چین شده از زیورآلات نقره ۹۲۵ و دست‌بافته‌های ظریف برند CH Gallery. طراحی شده برای ثبت ماندگار لحظات خاص شما.
+                                </p>
+                                <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 pt-4">
+                                    <button onclick="navigateTo('shop')" class="w-full sm:w-auto px-8 py-3.5 bg-chDark hover:bg-black text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 flex items-center justify-center space-x-reverse space-x-2">
+                                        <span>مشاهده محصولات</span>
+                                        <i class="fa-solid fa-arrow-left text-xs text-chGold"></i>
+                                    </button>
+                                    <button onclick="navigateTo('track')" class="w-full sm:w-auto px-6 py-3.5 border-2 border-chDark text-chDark font-semibold rounded-xl hover:bg-chDark hover:text-white transition-all">
+                                        پیگیری سریع سفارش
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Hero Image Graphic -->
+                            <div class="md:w-1/2 mt-10 md:mt-0 relative flex justify-center">
+                                <div class="relative w-72 h-72 sm:w-96 sm:h-96 rounded-3xl overflow-hidden shadow-2xl border-4 border-white transform rotate-2 hover:rotate-0 transition-transform duration-500">
+                                    <img src="https://images.unsplash.com/photo-1611591475155-4282faa7c2e7?auto=format&fit=crop&w=800&q=80" alt="CH Gallery Jewelry" class="w-full h-full object-cover">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                                    <div class="absolute bottom-4 right-4 text-white text-right">
+                                        <p class="text-xs font-light text-chGold">نقره خالص ۹۲۵</p>
+                                        <p class="text-sm font-bold">دستبند پروانه‌ای سری CH</p>
+                                    </div>
+                                </div>
+                                <!-- Decorative Badge -->
+                                <div class="absolute -bottom-4 -left-2 sm:left-10 bg-white p-4 rounded-2xl shadow-xl border border-chLightGray flex items-center space-x-reverse space-x-3 animate-bounce" style="animation-duration: 3s;">
+                                    <div class="w-10 h-10 rounded-full bg-chGoldLight flex items-center justify-center text-chGold">
+                                        <i class="fa-solid fa-gem text-lg"></i>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-xs font-bold text-chDark">ضمانت اصالت نقره</p>
+                                        <p class="text-[10px] text-gray-500">دست‌ساز و سفارشی</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    <!-- CATEGORIES SECTION -->
+                    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                        <div class="text-center max-w-xl mx-auto mb-10">
+                            <h2 class="text-2xl font-bold text-chDark">دسته‌بندی زیورآلات</h2>
+                            <p class="text-xs text-gray-500 mt-2">انتخاب سریع بر اساس قطعه مورد علاقه شما</p>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+                            <div onclick="navigateTo('shop', 'bracelets')" class="cursor-pointer group bg-white p-6 rounded-2xl shadow-sm border border-chLightGray hover:border-chGold transition-all hover:shadow-md text-center">
+                                <div class="w-14 h-14 mx-auto rounded-full bg-chNude group-hover:bg-chGold group-hover:text-white flex items-center justify-center text-chGold text-2xl transition-colors mb-3">
+                                    <i class="fa-solid fa-ring"></i>
+                                </div>
+                                <h3 class="font-bold text-sm text-chDark">دستبندها</h3>
+                                <p class="text-[11px] text-gray-400 mt-1">طرح‌های بافته شده و زنجیری</p>
+                            </div>
+                            <div onclick="navigateTo('shop', 'rings')" class="cursor-pointer group bg-white p-6 rounded-2xl shadow-sm border border-chLightGray hover:border-chGold transition-all hover:shadow-md text-center">
+                                <div class="w-14 h-14 mx-auto rounded-full bg-chNude group-hover:bg-chGold group-hover:text-white flex items-center justify-center text-chGold text-2xl transition-colors mb-3">
+                                    <i class="fa-regular fa-gem"></i>
+                                </div>
+                                <h3 class="font-bold text-sm text-chDark">انگشترها</h3>
+                                <p class="text-[11px] text-gray-400 mt-1">تک‌نگین و فری‌سایز</p>
+                            </div>
+                            <div onclick="navigateTo('shop', 'necklaces')" class="cursor-pointer group bg-white p-6 rounded-2xl shadow-sm border border-chLightGray hover:border-chGold transition-all hover:shadow-md text-center">
+                                <div class="w-14 h-14 mx-auto rounded-full bg-chNude group-hover:bg-chGold group-hover:text-white flex items-center justify-center text-chGold text-2xl transition-colors mb-3">
+                                    <i class="fa-solid fa-dharmachakra"></i>
+                                </div>
+                                <h3 class="font-bold text-sm text-chDark">گردنبندها</h3>
+                                <p class="text-[11px] text-gray-400 mt-1">پلاک‌های مینیمال نقره</p>
+                            </div>
+                            <div onclick="navigateTo('shop', 'earrings')" class="cursor-pointer group bg-white p-6 rounded-2xl shadow-sm border border-chLightGray hover:border-chGold transition-all hover:shadow-md text-center">
+                                <div class="w-14 h-14 mx-auto rounded-full bg-chNude group-hover:bg-chGold group-hover:text-white flex items-center justify-center text-chGold text-2xl transition-colors mb-3">
+                                    <i class="fa-solid fa-sparkles"></i>
+                                </div>
+                                <h3 class="font-bold text-sm text-chDark">گوشواره‌ها</h3>
+                                <p class="text-[11px] text-gray-400 mt-1">آویز و میخی ظریف</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- FEATURED PRODUCTS -->
+                    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                        <div class="flex justify-between items-end mb-8 border-b border-chLightGray pb-4">
+                            <div>
+                                <h2 class="text-xl sm:text-2xl font-bold text-chDark">محبوب‌ترین محصولات</h2>
+                                <p class="text-xs text-gray-500 mt-1">پرطرفدارترین کارهای گالری از نگاه مشتریان اینستاگرام</p>
+                            </div>
+                            <button onclick="navigateTo('shop')" class="text-xs font-bold text-chGold hover:text-chDark transition-colors flex items-center">
+                                مشاهده همه <i class="fa-solid fa-chevron-left mr-1 text-[10px]"></i>
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                            ${featuredProducts.map(product => renderProductCard(product)).join('')}
+                        </div>
+                    </section>
+
+                    <!-- WHY CH GALLERY SECTION -->
+                    <section class="bg-white border-y border-chLightGray py-16 mt-12">
+                        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div class="text-center max-w-xl mx-auto mb-12">
+                                <h2 class="text-2xl font-bold text-chDark">چرا CH Gallery؟</h2>
+                                <p class="text-xs text-gray-500 mt-2">تعهد ما به کیفیت و رضایت شما در تمامی مراحل خرید</p>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+                                <div class="text-center space-y-3">
+                                    <div class="w-12 h-12 rounded-full bg-chGoldLight text-chGold flex items-center justify-center mx-auto text-xl">
+                                        <i class="fa-solid fa-ribbon"></i>
+                                    </div>
+                                    <h3 class="font-bold text-sm text-chDark">کیفیت تضمین شده</h3>
+                                    <p class="text-xs text-gray-500 leading-relaxed">استفاده از نقره خالص استاندارد ۹۲۵ و نخ‌های باکیفیت و ضدحساسیت.</p>
+                                </div>
+                                <div class="text-center space-y-3">
+                                    <div class="w-12 h-12 rounded-full bg-chGoldLight text-chGold flex items-center justify-center mx-auto text-xl">
+                                        <i class="fa-solid fa-box-open"></i>
+                                    </div>
+                                    <h3 class="font-bold text-sm text-chDark">بسته‌‌بندی لوکس کادویی</h3>
+                                    <p class="text-xs text-gray-500 leading-relaxed">ارسال تمام محصولات در جعبه‌های هاردباکس لوکس مناسب هدیه دادن.</p>
+                                </div>
+                                <div class="text-center space-y-3">
+                                    <div class="w-12 h-12 rounded-full bg-chGoldLight text-chGold flex items-center justify-center mx-auto text-xl">
+                                        <i class="fa-solid fa-truck-fast"></i>
+                                    </div>
+                                    <h3 class="font-bold text-sm text-chDark">ارسال به سراسر کشور</h3>
+                                    <p class="text-xs text-gray-500 leading-relaxed">ارسال سریع و مطمئن مرسولات با پست پیشتاز به تمام نقاط ایران.</p>
+                                </div>
+                                <div class="text-center space-y-3">
+                                    <div class="w-12 h-12 rounded-full bg-chGoldLight text-chGold flex items-center justify-center mx-auto text-xl">
+                                        <i class="fa-solid fa-headset"></i>
+                                    </div>
+                                    <h3 class="font-bold text-sm text-chDark">پشتیبانی همیشگی</h3>
+                                    <p class="text-xs text-gray-500 leading-relaxed">پاسخگویی سریع در واتساپ و دایرکت اینستاگرام برای هرگونه راهنمایی.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            `;
+        }
+
+        function renderProductCard(product) {
+            return `
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-chLightGray hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+                    <!-- Image Area -->
+                    <div class="relative overflow-hidden aspect-square bg-gray-100 cursor-pointer" onclick="openProductModal('${product.id}')">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 right-3 bg-chDark/80 backdrop-blur-md text-chGold text-[10px] font-bold px-2.5 py-1 rounded-full border border-chGold/30">
+                            کد: ${product.code}
+                        </span>
+                        ${product.stock < 5 ? `
+                            <span class="absolute bottom-3 right-3 bg-rose-500 text-white text-[10px] font-bold px-2 py-0.5 rounded">
+                                تنها ${product.stock} عدد باقی مانده
+                            </span>
+                        ` : ''}
+                    </div>
+
+                    <!-- Details Area -->
+                    <div class="p-5 flex-grow flex flex-col justify-between space-y-4">
+                        <div>
+                            <h3 class="font-bold text-sm text-chDark group-hover:text-chGold transition-colors cursor-pointer" onclick="openProductModal('${product.id}')">
+                                ${product.name}
+                            </h3>
+                            <p class="text-xs text-gray-400 mt-1 line-clamp-2">${product.description}</p>
+                        </div>
+
+                        <div class="pt-2 border-t border-gray-100 flex items-center justify-between">
+                            <div>
+                                <span class="text-xs text-gray-400 block">قیمت:</span>
+                                <span class="text-sm font-extrabold text-chDark">${formatPrice(product.price)}</span>
+                            </div>
+
+                            <button onclick="addToCart('${product.id}')" class="bg-chNude hover:bg-chGold hover:text-white text-chDark p-2.5 rounded-xl transition-colors shadow-sm" title="افزودن به سبد خرید">
+                                <i class="fa-solid fa-cart-plus text-base"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderShopPage(filterCategory = null) {
+            let filtered = products;
+            if (filterCategory) {
+                filtered = products.filter(p => p.category === filterCategory);
+            }
+
+            return `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 animate-fade-in">
+                    <!-- Page Header -->
+                    <div class="text-center max-w-2xl mx-auto mb-10">
+                        <h1 class="text-3xl font-extrabold text-chDark">فروشگاه آنلاین زیورآلات</h1>
+                        <p class="text-xs text-gray-500 mt-2">مجموعه کامل محصولات دست‌ساز و زیورآلات نقره CH Gallery</p>
+                    </div>
+
+                    <!-- Category Filters -->
+                    <div class="flex flex-wrap items-center justify-center gap-2 mb-10">
+                        <button onclick="navigateTo('shop')" class="px-5 py-2 rounded-full text-xs font-semibold ${!filterCategory ? 'bg-chGold text-white shadow' : 'bg-white text-chDark border border-chLightGray hover:border-chGold'} transition-all">
+                            همه محصولات (${products.length})
+                        </button>
+                        <button onclick="navigateTo('shop', 'bracelets')" class="px-5 py-2 rounded-full text-xs font-semibold ${filterCategory === 'bracelets' ? 'bg-chGold text-white shadow' : 'bg-white text-chDark border border-chLightGray hover:border-chGold'} transition-all">
+                            دستبندها
+                        </button>
+                        <button onclick="navigateTo('shop', 'rings')" class="px-5 py-2 rounded-full text-xs font-semibold ${filterCategory === 'rings' ? 'bg-chGold text-white shadow' : 'bg-white text-chDark border border-chLightGray hover:border-chGold'} transition-all">
+                            انگشترها
+                        </button>
+                    </div>
+
+                    <!-- Grid -->
+                    ${filtered.length > 0 ? `
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                            ${filtered.map(p => renderProductCard(p)).join('')}
+                        </div>
+                    ` : `
+                        <div class="text-center py-16 bg-white rounded-2xl border border-chLightGray">
+                            <i class="fa-solid fa-box-open text-4xl text-gray-300 mb-3"></i>
+                            <p class="text-sm font-bold text-chDark">محصولی در این دسته‌بندی یافت نشد.</p>
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+
+        function renderTrackPage(prefilledOrder = null) {
+            return `
+                <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-fade-in">
+                    <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-chLightGray">
+                        <div class="text-center max-w-md mx-auto mb-8">
+                            <div class="w-14 h-14 bg-chGoldLight text-chGold rounded-full flex items-center justify-center mx-auto text-2xl mb-3">
+                                <i class="fa-solid fa-truck-ramp-box"></i>
+                            </div>
+                            <h1 class="text-2xl font-extrabold text-chDark">پیگیری مرسوله و سفارش</h1>
+                            <p class="text-xs text-gray-500 mt-2">شماره سفارش (مانند CH-10482) یا شماره موبایلی که هنگام ثبت سفارش وارد کرده‌اید را بنویسید.</p>
+                        </div>
+
+                        <!-- Search Form -->
+                        <div class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
+                            <input type="text" id="track-input" value="${prefilledOrder || ''}" placeholder="شماره سفارش یا شماره موبایل..." class="flex-grow px-4 py-3.5 rounded-xl border border-chLightGray focus:border-chGold text-sm focus:outline-none">
+                            <button onclick="handleTrackSearch()" class="bg-chGold hover:bg-chGoldHover text-white font-bold px-8 py-3.5 rounded-xl transition-all shadow-md">
+                                پیگیری
+                            </button>
+                        </div>
+
+                        <!-- Track Result Container -->
+                        <div id="track-result-container" class="mt-10">
+                            ${prefilledOrder ? renderTrackingDetails(prefilledOrder) : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function handleTrackSearch() {
+            const query = document.getElementById('track-input').value.trim();
+            const container = document.getElementById('track-result-container');
+            if (!query) {
+                container.innerHTML = `<p class="text-xs text-rose-500 text-center font-bold">لطفا شماره سفارش یا شماره موبایل را وارد کنید.</p>`;
+                return;
+            }
+            container.innerHTML = renderTrackingDetails(query);
+        }
+
+        function renderTrackingDetails(query) {
+            const found = orders.find(o => o.id.toLowerCase() === query.toLowerCase() || o.phone === query);
+
+            if (!found) {
+                return `
+                    <div class="bg-rose-50 border border-rose-200 text-rose-700 p-4 rounded-2xl text-center text-xs">
+                        سفارشی با این اطلاعات در سیستم یافت نشد. لطفا شماره سفارش صحیح را وارد کنید.
+                    </div>
+                `;
+            }
+
+            // Status Steps Definition
+            const steps = [
+                'ثبت سفارش',
+                'تأیید سفارش',
+                'در حال آماده‌‌سازی',
+                'تحویل به پست',
+                'ارسال شده'
+            ];
+
+            // Determine active index based on status
+            let currentStepIdx = 0;
+            switch(found.status) {
+                case 'در انتظار پرداخت': currentStepIdx = 0; break;
+                case 'پرداخت شده': currentStepIdx = 1; break;
+                case 'در حال آماده‌سازی': currentStepIdx = 2; break;
+                case 'تحویل به پست': currentStepIdx = 3; break;
+                case 'ارسال شده':
+                case 'تحویل داده شده': currentStepIdx = 4; break;
+                default: currentStepIdx = 1;
+            }
+
+            return `
+                <div class="border-t border-chLightGray pt-8 space-y-8 animate-fade-in">
+                    <!-- Order Header Summary -->
+                    <div class="bg-chNude p-5 rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs">
+                        <div>
+                            <span class="text-gray-500 block">شماره سفارش:</span>
+                            <span class="font-bold text-base text-chDark">${found.id}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500 block">تحویل گیرنده:</span>
+                            <span class="font-bold text-chDark">${found.customerName}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500 block">تاریخ ثبت:</span>
+                            <span class="font-bold text-chDark">${found.createdAt}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500 block">وضعیت فعلی:</span>
+                            <span class="font-bold text-chGold">${found.status}</span>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Progress Component -->
+                    <div>
+                        <h3 class="text-xs font-bold text-gray-500 mb-6">مراحل پردازش سفارش:</h3>
+                        <div class="relative flex flex-col sm:flex-row justify-between items-center gap-6 sm:gap-0">
+                            ${steps.map((step, idx) => {
+                                const isPassed = idx <= currentStepIdx;
+                                return `
+                                    <div class="flex sm:flex-col items-center text-right sm:text-center w-full sm:w-auto space-x-reverse space-x-3 sm:space-x-0 relative z-10">
+                                        <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs ${isPassed ? 'bg-chGold text-white shadow-md' : 'bg-gray-200 text-gray-400'} transition-all">
+                                            ${isPassed ? '✓' : idx + 1}
+                                        </div>
+                                        <span class="text-xs font-medium mt-2 ${isPassed ? 'text-chDark font-bold' : 'text-gray-400'}">${step}</span>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Post Tracking Box (If Dispatched) -->
+                    ${found.trackingCode && found.trackingCode !== '-' ? `
+                        <div class="bg-chGoldLight border border-chGold/30 p-5 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div class="space-y-1 text-center sm:text-right">
+                                <span class="text-xs font-bold text-chDark block">کد رهگیری ۲۴ رقمی پست پیشتاز:</span>
+                                <span class="font-mono text-sm tracking-wider font-extrabold text-chGold select-all">${found.trackingCode}</span>
+                            </div>
+                            <a href="https://tracking.post.ir/" target="_blank" class="bg-chDark hover:bg-black text-white text-xs font-bold px-5 py-2.5 rounded-xl transition-all flex items-center">
+                                <span>سامانه رهگیری پست</span>
+                                <i class="fa-solid fa-up-right-from-square mr-2 text-[10px] text-chGold"></i>
+                            </a>
+                        </div>
+                    ` : ''}
+
+                    <!-- Items Purchased -->
+                    <div>
+                        <h4 class="text-xs font-bold text-gray-500 mb-3">اقلام این سفارش:</h4>
+                        <div class="divide-y divide-gray-100 border border-gray-100 rounded-xl overflow-hidden">
+                            ${found.items.map(item => `
+                                <div class="p-3.5 bg-white flex justify-between items-center text-xs">
+                                    <span class="font-bold text-chDark">${item.name} (${item.quantity} عدد)</span>
+                                    <span class="text-gray-500">${formatPrice(item.price * item.quantity)}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCheckoutPage() {
+            if (cart.length === 0) {
+                return `
+                    <div class="max-w-xl mx-auto px-4 py-16 text-center animate-fade-in">
+                        <div class="w-16 h-16 bg-chGoldLight text-chGold rounded-full flex items-center justify-center mx-auto text-2xl mb-4">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                        </div>
+                        <h2 class="text-xl font-bold text-chDark">سبد خرید شما خالی است!</h2>
+                        <p class="text-xs text-gray-500 mt-2 mb-6">برای ثبت سفارش ابتدا زیورآلات مورد نظر خود را انتخاب کنید.</p>
+                        <button onclick="navigateTo('shop')" class="bg-chDark text-white px-6 py-3 rounded-xl text-xs font-bold hover:bg-black">
+                            بازدید از فروشگاه
+                        </button>
+                    </div>
+                `;
+            }
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = 45000;
+            const total = subtotal + shipping;
+
+            return `
+                <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 animate-fade-in">
+                    <h1 class="text-2xl font-extrabold text-chDark mb-8 text-center sm:text-right">ثبت و تکمیل سفارش</h1>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Form Section -->
+                        <div class="lg:col-span-2 bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-chLightGray space-y-6">
+                            <h2 class="text-base font-bold text-chDark border-b border-chLightGray pb-3">اطلاعات تحویل‌گیرنده</h2>
+                            
+                            <form id="checkout-form" onsubmit="handlePlaceOrder(event)" class="space-y-4">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-700 mb-1">نام و نام خانوادگی *</label>
+                                        <input type="text" id="cust-name" required placeholder="مثال: مریم سلیمانی" class="w-full px-4 py-3 rounded-xl border border-chLightGray focus:border-chGold text-xs focus:outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-700 mb-1">شماره همراه *</label>
+                                        <input type="tel" id="cust-phone" required placeholder="مثال: 09123456789" class="w-full px-4 py-3 rounded-xl border border-chLightGray focus:border-chGold text-xs focus:outline-none">
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-700 mb-1">استان *</label>
+                                        <input type="text" id="cust-province" required placeholder="مثال: تهران" class="w-full px-4 py-3 rounded-xl border border-chLightGray focus:border-chGold text-xs focus:outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-700 mb-1">شهر *</label>
+                                        <input type="text" id="cust-city" required placeholder="مثال: تهران" class="w-full px-4 py-3 rounded-xl border border-chLightGray focus:border-chGold text-xs focus:outline-none">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-700 mb-1">آدرس دقیق پستی *</label>
+                                    <textarea id="cust-address" required rows="3" placeholder="نام خیابان، کوچه، پلاک، واحد..." class="w-full px-4 py-3 rounded-xl border border-chLightGray focus:border-chGold text-xs focus:outline-none"></textarea>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-700 mb-1">کد پستی (۱۰ رقمی)</label>
+                                        <input type="text" id="cust-postal" placeholder="کد پستی ۱۰ رقمی" class="w-full px-4 py-3 rounded-xl border border-chLightGray focus:border-chGold text-xs focus:outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-gray-700 mb-1">توضیحات سفارش (اختیاری)</label>
+                                        <input type="text" id="cust-notes" placeholder="تغییر سایز یا یادداشت خاص..." class="w-full px-4 py-3 rounded-xl border border-chLightGray focus:border-chGold text-xs focus:outline-none">
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="w-full mt-6 bg-chGold hover:bg-chGoldHover text-white font-bold py-4 rounded-xl transition-all shadow-lg flex items-center justify-center space-x-reverse space-x-2 text-sm">
+                                    <i class="fa-solid fa-check"></i>
+                                    <span>ثبت نهایی سفارش DEMO</span>
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Summary Column -->
+                        <div class="bg-chNude rounded-3xl p-6 shadow-sm border border-chLightGray h-fit space-y-4">
+                            <h2 class="text-base font-bold text-chDark border-b border-chLightGray pb-3">خلاصه سفارش</h2>
+                            <div class="divide-y divide-gray-200/60 max-h-60 overflow-y-auto">
+                                ${cart.map(item => `
+                                    <div class="py-3 flex justify-between items-center text-xs">
+                                        <div>
+                                            <p class="font-bold text-chDark">${item.name}</p>
+                                            <p class="text-gray-400 mt-0.5">${item.quantity} عدد × ${formatPrice(item.price)}</p>
+                                        </div>
+                                        <span class="font-bold text-chDark">${formatPrice(item.price * item.quantity)}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+
+                            <div class="border-t border-chLightGray pt-4 space-y-2 text-xs">
+                                <div class="flex justify-between text-gray-600">
+                                    <span>مبلغ محصولات:</span>
+                                    <span>${formatPrice(subtotal)}</span>
+                                </div>
+                                <div class="flex justify-between text-gray-600">
+                                    <span>هزینه پست پیشتاز:</span>
+                                    <span>${formatPrice(shipping)}</span>
+                                </div>
+                                <div class="flex justify-between font-bold text-sm text-chDark pt-2 border-t border-gray-200">
+                                    <span>جمع کل نهایی:</span>
+                                    <span class="text-chGold text-base">${formatPrice(total)}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function handlePlaceOrder(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('cust-name').value;
+            const phone = document.getElementById('cust-phone').value;
+            const province = document.getElementById('cust-province').value;
+            const city = document.getElementById('cust-city').value;
+            const address = document.getElementById('cust-address').value;
+            const postalCode = document.getElementById('cust-postal').value || '-';
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const totalAmount = subtotal + 45000;
+
+            // Generate Order ID like CH-10484
+            const orderNum = 10480 + orders.length + 1;
+            const newOrderId = `CH-${orderNum}`;
+
+            const newOrder = {
+                id: newOrderId,
+                customerName: name,
+                phone: phone,
+                province: province,
+                city: city,
+                address: address,
+                postalCode: postalCode,
+                items: [...cart],
+                totalAmount: totalAmount,
+                status: 'تأیید سفارش',
+                trackingCode: '-',
+                createdAt: new Date().toLocaleDateString('fa-IR') + ' - ' + new Date().toLocaleTimeString('fa-IR', {hour: '2-digit', minute:'2-digit'})
+            };
+
+            orders.unshift(newOrder);
+            cart = []; // Empty cart
+            saveToStorage();
+
+            // Redirect to Tracking page directly with the new order ID
+            navigateTo('track', newOrderId);
+        }
+
+        function renderAdminPage() {
+            const totalSales = orders.reduce((sum, o) => sum + o.totalAmount, 0);
+
+            return `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 animate-fade-in">
+                    <!-- Header -->
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 bg-chDark text-white p-6 rounded-3xl">
+                        <div>
+                            <span class="text-chGold text-xs font-bold uppercase tracking-widest">دمو اختصاصی مدیریت</span>
+                            <h1 class="text-2xl font-extrabold text-white mt-1">پنل مدیریت فروشگاه CH Gallery</h1>
+                        </div>
+                        <button onclick="openAddProductModal()" class="bg-chGold hover:bg-chGoldHover text-white px-5 py-2.5 rounded-xl text-xs font-bold transition-all shadow">
+                            <i class="fa-solid fa-plus ml-1.5"></i> افزودن محصول جدید
+                        </button>
+                    </div>
+
+                    <!-- Dashboard Stats Grid -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-10">
+                        <div class="bg-white p-5 rounded-2xl border border-chLightGray shadow-sm">
+                            <span class="text-xs text-gray-400 block">فروش کل DEMO</span>
+                            <span class="text-lg font-extrabold text-chDark mt-1 block">${formatPrice(totalSales)}</span>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-chLightGray shadow-sm">
+                            <span class="text-xs text-gray-400 block">تعداد کل سفارشات</span>
+                            <span class="text-lg font-extrabold text-chDark mt-1 block">${orders.length} سفارش</span>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-chLightGray shadow-sm">
+                            <span class="text-xs text-gray-400 block">تعداد محصولات</span>
+                            <span class="text-lg font-extrabold text-chDark mt-1 block">${products.length} کالا</span>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-chLightGray shadow-sm">
+                            <span class="text-xs text-gray-400 block">تعداد مشتریان</span>
+                            <span class="text-lg font-extrabold text-chDark mt-1 block">${new Set(orders.map(o => o.phone)).size} نفر</span>
+                        </div>
+                    </div>
+
+                    <!-- Admin Tabs Area -->
+                    <div class="space-y-10">
+                        <!-- Orders Management Table -->
+                        <div class="bg-white rounded-3xl border border-chLightGray shadow-sm overflow-hidden p-6">
+                            <h2 class="text-lg font-bold text-chDark mb-4">مدیریت سفارشات ثبت شده</h2>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-right text-xs">
+                                    <thead class="bg-chNude text-gray-600 border-b border-chLightGray">
+                                        <tr>
+                                            <th class="p-3">شماره سفارش</th>
+                                            <th class="p-3">نام مشتری</th>
+                                            <th class="p-3">شماره تماس</th>
+                                            <th class="p-3">مبلغ کل</th>
+                                            <th class="p-3">وضعیت سفارش</th>
+                                            <th class="p-3">کد رهگیری پست</th>
+                                            <th class="p-3">تغییر وضعیت</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-100">
+                                        ${orders.map(o => `
+                                            <tr class="hover:bg-gray-50/50">
+                                                <td class="p-3 font-bold text-chDark">${o.id}</td>
+                                                <td class="p-3">${o.customerName}</td>
+                                                <td class="p-3 font-mono">${o.phone}</td>
+                                                <td class="p-3 font-bold">${formatPrice(o.totalAmount)}</td>
+                                                <td class="p-3">
+                                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-chGoldLight text-chGold">
+                                                        ${o.status}
+                                                    </span>
+                                                </td>
+                                                <td class="p-3 font-mono text-[11px]">${o.trackingCode}</td>
+                                                <td class="p-3">
+                                                    <select onchange="updateOrderStatus('${o.id}', this.value)" class="bg-white border border-chLightGray rounded-lg p-1 text-[11px] focus:outline-none">
+                                                        <option value="تأیید سفارش" ${o.status === 'تأیید سفارش' ? 'selected' : ''}>تأیید سفارش</option>
+                                                        <option value="در حال آماده‌سازی" ${o.status === 'در حال آماده‌سازی' ? 'selected' : ''}>در حال آماده‌سازی</option>
+                                                        <option value="تحویل به پست" ${o.status === 'تحویل به پست' ? 'selected' : ''}>تحویل به پست</option>
+                                                        <option value="ارسال شده" ${o.status === 'ارسال شده' ? 'selected' : ''}>ارسال شده</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Products Management Table -->
+                        <div class="bg-white rounded-3xl border border-chLightGray shadow-sm overflow-hidden p-6">
+                            <h2 class="text-lg font-bold text-chDark mb-4">مدیریت لیست محصولات</h2>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-right text-xs">
+                                    <thead class="bg-chNude text-gray-600 border-b border-chLightGray">
+                                        <tr>
+                                            <th class="p-3">تصویر</th>
+                                            <th class="p-3">کد</th>
+                                            <th class="p-3">نام محصول</th>
+                                            <th class="p-3">قیمت</th>
+                                            <th class="p-3">موجودی</th>
+                                            <th class="p-3">عملیات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-100">
+                                        ${products.map(p => `
+                                            <tr class="hover:bg-gray-50/50">
+                                                <td class="p-3">
+                                                    <img src="${p.image}" class="w-10 h-10 rounded-lg object-cover">
+                                                </td>
+                                                <td class="p-3 font-bold text-chGold">${p.code}</td>
+                                                <td class="p-3 font-medium">${p.name}</td>
+                                                <td class="p-3">${formatPrice(p.price)}</td>
+                                                <td class="p-3 font-bold">${p.stock} عدد</td>
+                                                <td class="p-3">
+                                                    <button onclick="deleteProduct('${p.id}')" class="text-rose-500 hover:text-rose-700 font-bold text-[11px]">
+                                                        حذف
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateOrderStatus(orderId, newStatus) {
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = newStatus;
+                if (newStatus === 'ارسال شده' && order.trackingCode === '-') {
+                    // Generate a mock 24-digit tracking code
+                    order.trackingCode = '284' + Math.floor(1000000000000000000 + Math.random() * 900000000000000000);
+                }
+                saveToStorage();
+                navigateTo('admin');
+            }
+        }
+
+        function deleteProduct(productId) {
+            products = products.filter(p => p.id !== productId);
+            saveToStorage();
+            navigateTo('admin');
+        }
+
+        function openAddProductModal() {
+            const name = prompt('نام محصول جدید:');
+            if (!name) return;
+            const code = prompt('کد محصول (مثلا CH-807):') || `CH-${800 + products.length + 1}`;
+            const price = parseInt(prompt('قیمت به تومان (مثلا 450000):') || '450000');
+            
+            const newProd = {
+                id: code,
+                name: name,
+                code: code,
+                price: price,
+                category: 'bracelets',
+                stock: 10,
+                image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=600&q=80',
+                description: 'محصول جدید اضافه شده از طریق پنل مدیریت دمو.',
+                featured: true,
+                newArrival: true
+            };
+
+            products.unshift(newProd);
+            saveToStorage();
+            navigateTo('admin');
+        }
+
+        function renderCategoriesPage() {
+            return `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-fade-in">
+                    <div class="text-center max-w-xl mx-auto mb-12">
+                        <h1 class="text-3xl font-extrabold text-chDark">دسته‌بندی‌های گالری</h1>
+                        <p class="text-xs text-gray-500 mt-2">دسته‌بندی تخصصی زیورآلات بر اساس استایل و نوع</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div onclick="navigateTo('shop', 'bracelets')" class="cursor-pointer group relative rounded-3xl overflow-hidden shadow-lg h-64 bg-black">
+                            <img src="https://images.unsplash.com/photo-1611591475155-4282faa7c2e7?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-8 text-white">
+                                <span class="text-chGold text-xs font-bold uppercase tracking-widest">پرطرفدار</span>
+                                <h2 class="text-2xl font-bold mt-1">کالکشن دستبندها</h2>
+                                <p class="text-xs text-gray-300 mt-1">دستبندهای بافته شده، زنجیری و آویزدارهای نقره ۹۲۵</p>
+                            </div>
+                        </div>
+
+                        <div onclick="navigateTo('shop', 'rings')" class="cursor-pointer group relative rounded-3xl overflow-hidden shadow-lg h-64 bg-black">
+                            <img src="https://images.unsplash.com/photo-1603561591411-07134e71a2a9?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-8 text-white">
+                                <span class="text-chGold text-xs font-bold uppercase tracking-widest">ظریف و خاص</span>
+                                <h2 class="text-2xl font-bold mt-1">کالکشن انگشترها</h2>
+                                <p class="text-xs text-gray-300 mt-1">انگشترهای تک‌نگین و فری‌سایز با طراحی مدرن</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderAboutPage() {
+            return `
+                <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-fade-in">
+                    <div class="bg-white rounded-3xl p-8 sm:p-12 shadow-sm border border-chLightGray text-center space-y-6">
+                        <div class="w-16 h-16 rounded-full border-2 border-chGold flex items-center justify-center bg-white text-chGold font-bold text-2xl mx-auto">چ</div>
+                        <h1 class="text-2xl font-extrabold text-chDark">درباره برند CH Gallery</h1>
+                        <p class="text-sm text-gray-600 leading-relaxed max-w-2xl mx-auto">
+                            برند **CH Gallery** فعالیت خود را با هدف طراحی و ساخت دست‌ساز زیورآلات ظریف نقره و اکسسوری‌های خاص آغاز کرد. باور ما این است که «زیبایی در جزئیات کوچک است»؛ از همین رو تمامی قطعات با دقت و ظرافت بالا توسط دست ساخته و آماده می‌شوند.
+                        </p>
+                        <div class="pt-6 border-t border-chLightGray grid grid-cols-1 sm:grid-cols-3 gap-6 text-xs text-gray-500">
+                            <div>
+                                <span class="block font-bold text-chDark text-base">۷۳K+</span>
+                                <span>دنبال‌کننده در اینستاگرام</span>
+                            </div>
+                            <div>
+                                <span class="block font-bold text-chDark text-base">نقره ۹۲۵</span>
+                                <span>استاندارد بین‌المللی اصالت</span>
+                            </div>
+                            <div>
+                                <span class="block font-bold text-chDark text-base">۱۰۰٪ دست‌ساز</span>
+                                <span>طراحی اختصاصی کارهای بافت</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    quantity: 1
+                });
+            }
+
+            saveToStorage();
+            updateCartDrawerUI();
+            toggleCartDrawer(true); // Open drawer
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            saveToStorage();
+            updateCartDrawerUI();
+        }
+
+        function changeCartQty(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (item) {
+                item.quantity += delta;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    saveToStorage();
+                    updateCartDrawerUI();
+                }
+            }
+        }
+
+        function updateCartBadge() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cart-badge');
+            if (count > 0) {
+                badge.innerText = count;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        function updateCartDrawerUI() {
+            const container = document.getElementById('cart-drawer-items');
+            const subtotalText = document.getElementById('cart-subtotal-text');
+            const totalText = document.getElementById('cart-total-text');
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-400 space-y-2">
+                        <i class="fa-solid fa-bag-shopping text-3xl"></i>
+                        <p class="text-xs">سبد خرید شما خالی است.</p>
+                    </div>
+                `;
+                subtotalText.innerText = '۰ تومان';
+                totalText.innerText = '۴۵,۰۰۰ تومان';
+                return;
+            }
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = 45000;
+
+            subtotalText.innerText = formatPrice(subtotal);
+            totalText.innerText = formatPrice(subtotal + shipping);
+
+            container.innerHTML = cart.map(item => `
+                <div class="flex items-center space-x-reverse space-x-3 bg-white p-3 rounded-2xl border border-chLightGray">
+                    <img src="${item.image}" class="w-14 h-14 rounded-xl object-cover">
+                    <div class="flex-grow">
+                        <h4 class="text-xs font-bold text-chDark">${item.name}</h4>
+                        <span class="text-xs text-chGold font-semibold block mt-1">${formatPrice(item.price)}</span>
+                        
+                        <div class="flex items-center space-x-reverse space-x-2 mt-2">
+                            <button onclick="changeCartQty('${item.id}', -1)" class="w-5 h-5 bg-chNude rounded flex items-center justify-center text-xs text-chDark font-bold">-</button>
+                            <span class="text-xs font-bold px-1">${item.quantity}</span>
+                            <button onclick="changeCartQty('${item.id}', 1)" class="w-5 h-5 bg-chNude rounded flex items-center justify-center text-xs text-chDark font-bold">+</button>
+                        </div>
+                    </div>
+                    <button onclick="removeFromCart('${item.id}')" class="text-gray-300 hover:text-rose-500 p-2">
+                        <i class="fa-solid fa-trash-can text-sm"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function toggleCartDrawer(forceOpen = false) {
+            const drawer = document.getElementById('cart-drawer');
+            const overlay = document.getElementById('cart-drawer-overlay');
+
+            updateCartDrawerUI();
+
+            if (forceOpen || drawer.classList.contains('-translate-x-full')) {
+                drawer.classList.remove('-translate-x-full');
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+            } else {
+                drawer.classList.add('-translate-x-full');
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+            }
+        }
+
+        function openProductModal(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const modal = document.getElementById('product-modal');
+            const modalBody = document.getElementById('product-modal-body');
+
+            modalBody.innerHTML = `
+                <div class="aspect-square rounded-2xl overflow-hidden bg-gray-100">
+                    <img src="${product.image}" class="w-full h-full object-cover">
+                </div>
+                <div class="flex flex-col justify-between space-y-4 text-right">
+                    <div class="space-y-2">
+                        <span class="text-xs font-bold text-chGold bg-chGoldLight px-2.5 py-1 rounded-full">کد: ${product.code}</span>
+                        <h2 class="text-xl font-extrabold text-chDark pt-1">${product.name}</h2>
+                        <p class="text-xs text-gray-500 leading-relaxed">${product.description}</p>
+                    </div>
+
+                    <div class="space-y-4 pt-4 border-t border-chLightGray">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-gray-400">قیمت محصول:</span>
+                            <span class="text-lg font-black text-chDark">${formatPrice(product.price)}</span>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button onclick="addToCart('${product.id}'); closeProductModal();" class="flex-1 bg-chGold hover:bg-chGoldHover text-white font-bold py-3 rounded-xl transition-all shadow text-xs flex items-center justify-center">
+                                <i class="fa-solid fa-cart-plus ml-2"></i> افزودن به سبد خرید
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        function closeProductModal() {
+            const modal = document.getElementById('product-modal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        function openSearchModal() {
+            const modal = document.getElementById('search-modal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.getElementById('search-input').focus();
+        }
+
+        function closeSearchModal() {
+            const modal = document.getElementById('search-modal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        function handleSearch(val) {
+            const resultsContainer = document.getElementById('search-results');
+            if (!val.trim()) {
+                resultsContainer.innerHTML = '';
+                return;
+            }
+
+            const query = val.toLowerCase();
+            const matches = products.filter(p => p.name.toLowerCase().includes(query) || p.code.toLowerCase().includes(query));
+
+            if (matches.length === 0) {
+                resultsContainer.innerHTML = `<p class="p-4 text-center text-xs text-gray-400">محصولی پیدا نشد.</p>`;
+                return;
+            }
+
+            resultsContainer.innerHTML = matches.map(p => `
+                <div onclick="openProductModal('${p.id}'); closeSearchModal();" class="p-3 hover:bg-chNude flex items-center space-x-reverse space-x-3 cursor-pointer rounded-xl transition-colors">
+                    <img src="${p.image}" class="w-10 h-10 rounded-lg object-cover">
+                    <div class="flex-grow">
+                        <h5 class="text-xs font-bold text-chDark">${p.name}</h5>
+                        <span class="text-[10px] text-chGold font-mono">کد: ${p.code}</span>
+                    </div>
+                    <span class="text-xs font-bold text-chDark">${formatPrice(p.price)}</span>
+                </div>
+            `).join('');
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        window.onload = function() {
+            saveToStorage();
+            navigateTo('home');
+        };
+    </script>
+</body>
+</html>
